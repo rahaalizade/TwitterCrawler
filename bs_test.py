@@ -22,3 +22,9 @@ def crawl_user_tweet(user):
         time.sleep(2)
     
     return set(tweets)
+
+if __name__ == '__main__':
+    
+    print("Enter the username: ")
+    user = input()
+    pprint((crawl_user_tweet(user)))
