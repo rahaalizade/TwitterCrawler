@@ -14,22 +14,28 @@ def crawl_user_tweet(user):
     body = browser.find_element_by_tag_name('body')
     
     tweets = []
-    for _ in range(10):
-        part_of_tweets = browser.find_elements_by_xpath('//article[@role="article"]')
-        for tweet in part_of_tweets:
-            tweets.append(tweet.text)
+    for _ in range(2):
+        
+        tweet_with_data =  browser.find_elements_by_xpath('//div[@data-testid="tweet"]')
+        
+        for t in tweet_with_data:
+            x = t.find_elements_by_xpath('.//span')
+            likes = x[-1].text
+            retweets = x[-3].text
+            replies = x[-5].text
+            tweet = x[-7].text
+                
+            tweets.append(tuple([tweet,likes,retweets,replies]))     
+        
         body.send_keys(Keys.PAGE_DOWN)
         time.sleep(2)
-    
-    tweets = set(tweets)
+        
     return [jsonify_tweet(tweet) for tweet in tweets]
 
 def jsonify_tweet(tweet):
-    splitted_tweet = tweet.split('\n')
     json_data_format = {
-                        "name": splitted_tweet[0], "ID": splitted_tweet[1], "date":splitted_tweet[3] ,
-                        "like":splitted_tweet[-2], "retweet":splitted_tweet[-3],
-                        "comment":splitted_tweet[-4], "tweet": ''.join(splitted_tweet[4:-4])
+                        "tweet": tweet[0],"likes":tweet[1],
+                        "retweets":tweet[2], "replies":tweet[3]
                        }   
     return (json_data_format)
     
