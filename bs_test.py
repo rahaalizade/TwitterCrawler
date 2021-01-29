@@ -21,10 +21,20 @@ def crawl_user_tweet(user):
         body.send_keys(Keys.PAGE_DOWN)
         time.sleep(2)
     
-    return set(tweets)
+    tweets = set(tweets)
+    return [jsonify_tweet(tweet) for tweet in tweets]
 
+def jsonify_tweet(tweet):
+    splitted_tweet = tweet.split('\n')
+    json_data_format = {
+                        "name": splitted_tweet[0], "ID": splitted_tweet[1], "date":splitted_tweet[3] ,
+                        "like":splitted_tweet[-2], "retweet":splitted_tweet[-3],
+                        "comment":splitted_tweet[-4], "tweet": ''.join(splitted_tweet[4:-4])
+                       }   
+    return (json_data_format)
+    
 if __name__ == '__main__':
     
     print("Enter the username: ")
     user = input()
-    pprint((crawl_user_tweet(user)))
+    print((crawl_user_tweet(user)))
