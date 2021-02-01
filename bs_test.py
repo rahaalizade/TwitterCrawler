@@ -46,7 +46,7 @@ def crawl_user_tweet(user):
     """
     Printing rawtweets (just tweets)
     """
-    return (rawtweets)
+    return [{"tweet": tweet} for tweet in rawtweets]
 
 def jsonify_tweet(tweet):
     json_data_format = {
@@ -59,4 +59,5 @@ if __name__ == '__main__':
     
     print("Enter the username: ")
     user = input()
-    print((crawl_user_tweet(user)))
+    with open("rawtweets.txt", "w") as file:
+        file.write(str(crawl_user_tweet(user)).replace("\'","\""))
