@@ -60,4 +60,4 @@ if __name__ == '__main__':
     print("Enter the username: ")
     user = input()
     with open("rawtweets.txt", "w") as file:
-        file.write(str(crawl_user_tweet(user)))
+        file.write(str(crawl_user_tweet(user)).replace("\'","\""))
