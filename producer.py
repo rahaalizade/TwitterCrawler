@@ -1,12 +1,11 @@
-from time import sleep
 from json import dumps
+import json
 from kafka import KafkaProducer
 
-producer = KafkaProducer(bootstrap_servers=['localhost:9092'],
-                         value_serializer=lambda x:
-                         dumps(x).encode('utf-8'))
+producer = KafkaProducer(bootstrap_servers=['localhost:9092'])
+with open("rawtweets.txt", "r") as file:
+    rawtweets = json.loads("{}".format(file.read()))
+    for tweet in rawtweets:
+        producer.send('rawtweets', (json.dumps(tweet)).encode('utf-8'))
 
-for e in range(1000):
-    data = {'number': e}
-    producer.send('rawtweets', value=data)
-    sleep(5)
+producer.flush()
