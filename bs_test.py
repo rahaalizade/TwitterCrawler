@@ -14,7 +14,6 @@ def crawl_user_tweet(user):
     body = browser.find_element_by_tag_name('body')
     
     tweets = []
-    li_rawtweets = []
     rawtweets = []
     for _ in range(10):
         tweet_with_data =  browser.find_elements_by_xpath('//div[@data-testid="tweet"]')
